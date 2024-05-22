@@ -1,0 +1,77 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'home' %}"><i class="fa fa-cart-plus"></i> UrbanCart</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'home' %}"><i class="fa fa-home"></i> Home</a>
+          </li>
+          {% if request.user.is_authenticated %}
+                <li class="nav-item">
+                  <a class="nav-link" href="#"><b><i class="fa fa-user" > </i> Hi <span style="color:blue;">{{request.user | upper}} </span> </b></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'logout_view' %}" id="logout-link"><i class="fa fa-sign-in" ></i>logout</a>
+                </li>
+          {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'register' %}"><i class="fa fa-user"></i> Register</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'login_view' %}"><i class="fa fa-sign-in" ></i>Login</a>
+              </li>
+          {% endif %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'collections' %}"><i class="fa fa-cubes"></i> Collections</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'home' %}"><i class="fa fa-contact"></i> Contact Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'home' %}"><i class="fa fa-shopping-cart"> </i>  CART </a>
+          </li>
+          <!-- <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Dropdown link
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </li> -->
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- // login welcome message
+  {% if request.user.is_authenticated %}
+  <script>
+    alert("Welcome back, {{ request.user.username }}!");
+  </script>
+{% endif %}
+  <script> -->
+<script>
+    // it is used to ask confirmation to the user that they are sure to logout this prevents the logout
+ 
+ const logoutLink = document.getElementById('logout-link');
+
+logoutLink.addEventListener('click', function(event) {
+  if (confirm("Are you sure you want to logout?")) {
+    // Perform logout action here (if needed)
+    alert("You have been logged out.");
+  } else {
+    event.preventDefault();  // Ensure this is called only on cancel
+    alert("Logout canceled.");
+  }
+});
+
+
+
+
+    
+</script>

@@ -1,0 +1,44 @@
+{% extends 'base_templates/base.html' %}
+{% block title %} E-Commerce{% endblock title %}
+
+
+{% block css %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/index.css' %}">
+
+{% endblock %}
+
+{% block body %}
+{% include 'base_templates/slider.html' %}
+
+<!-- to Display Trending Products -->
+<div class="container">
+    <div class="row">
+        <div class="col-12 border-bottom mb-5">LATEST OFFERS</div>
+        {% for item in products %}
+        <div class="col-lg-3 col-md-4 co1-sm-6 col-xs-12 ">
+            <a href="{% url 'product_details' item.category.name item.name %}">
+            <div class="card fixed-height-card" style="width: 18rem;">
+                <img src="{{item.product_image.url}}" class="card-img-top" alt="Collection Images" >
+                <div class="card-body">
+                  <h5 class="card-title">{{item.name}}</h5>
+                  <p class="card-text float-start  original_price"><i class="fa fa-inr"> </i> <s>{{item.original_price | stringformat:'d'}}</s></p>
+                  <!-- | stringformat:'d' to remove decima points -->
+                  <p class="card-text float-end  selling_price"><i class="fa fa-inr"></i> {{item.selling_price | stringformat:'d'}}</p>
+                  <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                </div>
+              </a>
+              </div>
+           
+            <!-- {{ item }} -->
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock body %}
+
+{% if request.user.is_authenticated %}
+<script>    
+alert("Welcome back, {{ request.user.username }}!");
+</script>
+{% endif %}

@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Mukta:wght@200;300;400;500;600;700;800&display=swap');
+
+h2{
+    background-color: aquamarine;
+    font-family: "Mukta", sans-serif;
+    font-weight: 800;
+    font-style: normal;
+}
+
+/* * code is copied form collection_view.html because we are displaying same content in index as a trending products whic is we added treading=1 in a database*/ */
+
+      /* custom styles for card width and height */
+      .fixed-height-card {
+        height: 400px; /* Set your desired fixed height */
+      }
+      .fixed-height-card .card-img-top {
+        height: 200px; /* Set your desired fixed height for the image */
+        object-fit: cover; /* Ensure the image covers the div */
+      }
+  
+      /* in case if the card description is high then we use scrolling content to scroll */
+      .fixed-height-card .card-body {
+      height: 200px; /* Adjust this value as needed */
+      overflow-y: auto; /* Allows scrolling if content overflows */
+  }
+  
+  /* hover effects */
+  .card-img-top {
+      filter: blur(1px); /* Apply blur effect on hover */
+      filter: brightness(90%);
+  
+        transition: filter 0.3s ease; /* Smooth transition effect */
+        /* transform-style: preserve-3d; Preserves the 3D effect */
+      }
+      .card-img-top:hover {
+          filter: brightness(100%); /* Apply blur effect on hover */
+          cursor: pointer;
+  
+      }
+  
+      .original_price{
+          font-weight: bold;
+          color:red;
+      }
+  
+      .selling_price{
+          font-weight: bold;
+          background-color: green;
+          color: rgb(255, 255, 255);  
+          padding: 0px 5px 0px 5px;
+          border-radius: 2px;
+      }
+      .card{
+        cursor: pointer;
+        box-shadow: rgba(0, 0, 0, 0.50) 0px 5px 15px;
+      }

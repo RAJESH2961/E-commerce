@@ -1,0 +1,191 @@
+{% extends 'base_templates/base.html' %}
+{% block title %} Register{% endblock title %}
+
+
+{% block css %}
+{% load static %}
+<!-- <link rel="stylesheet" href="{% static 'css/index.css' %}"> -->
+<style>
+    /* myapp/static/css/styles.css */
+
+
+/* .container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 500px;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+}
+
+button[type="reset"] {
+    background-color: #f44336;
+    color: white;
+} */
+
+/* .row{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+
+} */
+.label_text{
+    color: blue;
+}
+button{
+    /* all:unset; */
+    border: none;
+    outline: none;
+    padding:5px 10px ;
+    border-radius: 5px;
+    
+}
+
+button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+}
+
+button[type="reset"] {
+    background-color: #f44336;
+    color: white;
+    margin-right: 20px;
+}
+/* button:hover{
+    box-shadow: 10px 10px 2px black;
+} */
+.buttons{
+    display: flex;
+    justify-content: flex-end;
+}
+.row{
+    justify-content: center;
+}
+
+</style>
+
+{% endblock %}
+
+{% block body %}
+
+
+<div class="container">
+    <h2>Register Here</h2>
+    {% include 'base_templates/message.html' %}
+
+    <!-- <form method="post" action="">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_username">Username:</label>
+            {{ form.username }}
+        </div>
+        
+        <div class="form-group">
+            <label for="id_email">Email:</label>
+            {{ form.email }}
+        </div>
+        <div class="form-group">
+            <label for="id_password1">Password:</label>
+            {{ form.password1 }}
+        </div>
+        <div class="form-group">
+            <label for="id_password2">Confirm Password:</label>
+            {{ form.password2 }}
+        </div>
+        <div class="form-actions">
+            <button type="submit">Submit</button>
+            <button type="reset">Clear</button>
+        </div>
+    </form> -->
+    <!-- Example template snippet -->
+
+    <!-- the below code is styled using bootstrap in form.py which django supports -->
+    <div class="row">
+        <div class="col-lg-6 col-sm-12">
+            <form method="post" action="">
+                {% csrf_token %}
+                <label class="label_text">User Name</label>
+                {{ form.username }}
+                {% if form.errors.username %}
+                <label class="text-primary">{{form.errors.username}}</label>
+                {% endif %}
+
+                <label class="label_text">Email</label>
+                {{ form.email }}
+                {% if form.errors.email %}
+                <label class="text-danger">{{form.errors.email}}</label>
+                {% endif %}
+
+                <label class="label_text">Password</label>
+                {{ form.password1 }}
+                {% if form.errors.password1 %}
+                <label class="text-danger">{{form.errors.password1}}</label>
+                {% endif %}
+
+                <label class="label_text"> Confirm Password</label>
+                <!-- {{ form.password2.label_tag }} it will give label name which is default like password2 if we want to modift we us lables which is used above -->
+
+                {{ form.password2 }}
+                {% if form.errors.password2 %}
+                <label class="text-danger">{{form.errors.password2}}</label>
+                {% endif %}
+
+                <!-- /* <button type="">Cancel</button> */ -->
+                <div class="buttons">
+                    <button type="reset">Cancel</button>
+
+                    <button type="submit">Register</button>
+
+                </div>
+        
+            </form>
+            
+                <a href="{% url 'login_view' %}">Aldready a User</a>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock body %}

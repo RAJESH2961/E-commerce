@@ -1,0 +1,103 @@
+{% extends 'base_templates/base.html' %}
+{% block title %} E-Commerce{% endblock title %}
+
+
+{% block css %}
+<style>
+    body{
+        height: 100vh;
+        width: 100vw;
+    }
+    .card-img{
+        width:300px;
+        height: 250px;
+    }
+    .description {
+    max-width: 100%; /* Ensure the paragraph does not exceed its container width */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    overflow: hidden; /* Prevent horizontal scrolling */
+}
+/* Trending Product Stylings */
+.pic-box{
+    position: relative;
+}
+.hot{
+    background-color: red;
+    color: white;
+    width: 50px;
+    text-align: center;
+    font-weight: bold;
+    display: inline;
+    border-radius: 5px;
+    padding:5px;
+    position: absolute;
+    top: 0px;
+    right: 5px;
+    z-index: 10;
+
+}
+
+   
+    
+ 
+
+</style>
+
+
+{% endblock css %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 border-bottom mb-3 text-success"><h2>{{products}} Details </h2></div>
+        <!-- <p style="border-bottom: 2px solid rgb(0, 13, 251);"></p> -->
+        <!-- <div class="row"> -->
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                  <li class="breadcrumb-item"><a href="{% url 'collections_view' products.category.name %}">Collections</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">{{products.name}}</li>
+                </ol>
+              </nav>
+              {% include 'base_templates/message.html' %}
+
+
+        <div class="col-lg-4 col-sm-12 pic-box">
+
+            <!-- IT Displays Hot When the product is trending -->
+            {% if products.trending %}
+
+            <div class="hot">HOT</div>
+            {% endif %}
+            <!-- img -->
+            <img src="{{products.product_image.url}}" class="card-img" alt="Products Images" >
+
+        </div>
+        <div class="col-lg-8 col-sm-12">
+            <h5 class="text-success">{{products | upper}}</h5> <!--it converts Uppercase-->
+
+            <p>{{products.vendor}}</p>
+
+            <p class="description">{{ products.description }}</p>
+
+            <p class="text-danger">Origional Price <i class="fa fa-inr"> </i> <s class="text-danger fw-bold">{{products.original_price | stringformat:'d'}}</s></p>
+            <!-- | stringformat:'d' to remove decima points -->
+            <p class="text-primary">Offer Price <i class="fa fa-inr"></i> {{products.selling_price | stringformat:'d'}}</p>
+
+            {% if products.quantity > 0 %}
+            <button class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to Cart</button>
+            {% else %}
+            <button class="btn btn-secondary"><i class="fa fa-minus"></i> Out of Stock</button>
+            {% endif %}
+
+            <button class="btn btn-danger"><i class="fa fa-heart"></i></button>
+
+        </div>
+    <!-- </div> -->
+    </div>
+</div>
+
+
+{% endblock body %}
