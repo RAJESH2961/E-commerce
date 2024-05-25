@@ -14,7 +14,7 @@ def getFileName(req,filename):
 # Create your models here.
 class Category(models.Model):
     name=models.CharField(max_length=150,null=False,blank=False)
-    image=models.ImageField(upload_to=getFileName,null=True,blank=True)
+    image=models.ImageField(upload_to=getFileName,null=False,blank=False,default="images/img-1.jpg")#if the admin not updated image by default it will add the image
     description=models.TextField(max_length=500,null=False,blank=True)
     status=models.BooleanField(default=False,help_text="0-show,1-Hidden")
     created_at=models.DateTimeField(auto_now=True)
@@ -41,7 +41,7 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products')
     name = models.CharField(max_length=150, null=False, blank=False)
     vendor = models.CharField(max_length=150, null=False, blank=False)
-    product_image = models.ImageField(upload_to=getFileName, null=True, blank=True)
+    product_image = models.ImageField(upload_to=getFileName, null=False, blank=False)
     quantity = models.PositiveIntegerField(null=False, blank=False)
     original_price = models.FloatField(null=False, blank=False)
     selling_price = models.FloatField(null=False, blank=False)
@@ -55,3 +55,14 @@ class Product(models.Model):
     # ordering = ['-created_at']: This specifies the default ordering for the model. Products will be ordered by created_at in descending order (newest first).
     class Meta:
         ordering = ['-created_at']
+
+
+class ContactForm(models.Model):
+    name = models.CharField(max_length=30, blank=False, null=False)
+    email = models.EmailField(blank=False, null=False)
+    mobile = models.PositiveIntegerField(blank=False, null=False)
+    subject = models.CharField(max_length=100, blank=False, null=False)
+    message = models.CharField(max_length=1000, blank=False, null=False)
+
+    def __str__(self):
+        return f"Name: {self.name} , Email: {self.email}, Phone: {self.mobile}"

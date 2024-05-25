@@ -5,6 +5,8 @@ from . import views
 urlpatterns = [
     path('', views.home, name="home"),#Here name "home" is used in url links in pages
     path('register/', views.register, name="register"),
+    path('contact/', views.contact, name="contact"),
+    path('success/', views.success, name="success"),
     path('login/', views.login_view, name="login_view"),#avoid using login because Django has inbuilt login
     path('logout/', views.logout_view, name="logout_view"),#avoid using logout because Django has inbuilt login
     path('collections/', views.collections, name="collections"),

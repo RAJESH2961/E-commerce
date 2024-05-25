@@ -74,6 +74,12 @@ WSGI_APPLICATION = 'Ecommerce.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 DATABASES = {
     'default': {
@@ -136,3 +142,13 @@ STATICFILES_DIRS=(
 
 MEDIA_URL='/images/'
 MEDIA_ROOT=BASE_DIR/'static'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Replace with your SMTP server hostname
+EMAIL_PORT = 587  # This is the typical port for SMTP with TLS encryption
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'grajesh2906@gmail.com'  # Replace with your SMTP username/email
+EMAIL_HOST_PASSWORD = 'ofxkxuilhltozkxn'  # Replace with your SMTP password
+
+
+

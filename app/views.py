@@ -4,6 +4,8 @@ from django.contrib import messages#we can use it in anywhere in the application
 from django.http import HttpResponse
 from .form import *
 from django.contrib.auth import authenticate,login,logout
+from Ecommerce import settings
+from django.core.mail import EmailMessage
 
 # Create your views here.
 
@@ -96,5 +98,23 @@ def product_details(req,cname,pname):
          return redirect('collections')
          
 
-
-
+def contact(req):
+    if req.method=="POST":
+        name = req.POST['name']
+        email = req.POST['email']
+        number = req.POST['mobile']
+        subject = req.POST['subject']
+        message = req.POST['message']
+        user=ContactForm(name=name, email=email, mobile=number, subject=subject, message=message)
+        user.save()
+        sub="welcome"
+        body="Hi"
+        sender=settings.EMAIL_HOST_USER
+        receiver=email
+        email_msg=EmailMessage(sub,body,sender,[receiver])
+        return redirect('success')
+    else:
+        return render(req,'contact/contact.html')
+    
+def success(req):
+    return render(req,'contact/success.html')
