@@ -1,11 +1,61 @@
-<!-- contact/templates/contact/thanks.html -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Thank You</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Successful</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #27ae60;
+        }
+        p {
+            font-size: 18px;
+        }
+        .footer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #888;
+        }
+        .button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #27ae60;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .button:hover {
+            background-color: #219150;
+        }
+    </style>
 </head>
 <body>
-    <h1>Thank You!</h1>
-    <p>Your message has been sent.</p>
+    <div class="container">
+        <h1>Login Successful</h1>
+        <p>Welcome back! You have successfully logged in.</p>
+        <a href="/" class="button">Go to Homepage</a>
+        <div class="footer">
+            <p>If you have any questions or need support, please contact our support team.</p>
+            <p>Thank you for using our service!</p>
+        </div>
+    </div>
 </body>
 </html>

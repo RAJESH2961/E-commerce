@@ -14,7 +14,7 @@
 <!-- to Display Trending Products -->
 <div class="container">
     <div class="row">
-        <div class="col-12 border-bottom mb-5">LATEST OFFERS</div>
+        <div class="col-12 border-bottom mb-5 mt-3">LATEST OFFERS</div>
         {% for item in products %}
         <div class="col-lg-3 col-md-4 co1-sm-6 col-xs-12 ">
             <a href="{% url 'product_details' item.category.name item.name %}">

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 # from django.contrib.auth.models import User
 # in case if we  upload files multiple times single file it will overide so we create with current time with filename uses concatination to add current time and file name
 
@@ -60,9 +61,25 @@ class Product(models.Model):
 class ContactForm(models.Model):
     name = models.CharField(max_length=30, blank=False, null=False)
     email = models.EmailField(blank=False, null=False)
-    mobile = models.PositiveIntegerField(blank=False, null=False)
+    mobile = models.CharField(max_length=14, blank=False, null=False)
     subject = models.CharField(max_length=100, blank=False, null=False)
     message = models.CharField(max_length=1000, blank=False, null=False)
 
     def __str__(self):
         return f"Name: {self.name} , Email: {self.email}, Phone: {self.mobile}"
+    
+
+class Cart(models.Model):
+    user=models.ForeignKey(User, on_delete=models.CASCADE)
+    product=models.ForeignKey(Product, on_delete=models.CASCADE)
+    product_qty=models.IntegerField(null=False, blank=False)
+    created_at=models.DateTimeField(auto_now=True)
+
+    @property
+    def total_cost(self):
+        return self.product_qty*self.product.selling_price
+
+class Favourite(models.Model):
+    user=models.ForeignKey(User, on_delete=models.CASCADE)
+    product=models.ForeignKey(Product, on_delete=models.CASCADE)
+    created_at=models.DateTimeField(auto_now=True)

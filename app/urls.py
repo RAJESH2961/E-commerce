@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 
 
+
 urlpatterns = [
     path('', views.home, name="home"),#Here name "home" is used in url links in pages
     path('register/', views.register, name="register"),
@@ -12,6 +13,14 @@ urlpatterns = [
     path('collections/', views.collections, name="collections"),
     path('collections/<str:name>', views.collections_view, name="collections_view"),
     path('collections/<str:cname>/<str:pname>', views.product_details, name="product_details"),
+    path('update/', views.updateprofile, name='update_profile'),
+    path('changepassword/', views.changepassword, name='changepassword'),
+    path('add_to_cart/', views.add_to_cart, name="add_to_cart"),
+
+
 
 
 ]
+
+
+

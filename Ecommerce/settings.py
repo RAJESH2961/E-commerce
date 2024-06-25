@@ -148,7 +148,7 @@ EMAIL_HOST = 'smtp.gmail.com'  # Replace with your SMTP server hostname
 EMAIL_PORT = 587  # This is the typical port for SMTP with TLS encryption
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'grajesh2906@gmail.com'  # Replace with your SMTP username/email
-EMAIL_HOST_PASSWORD = 'ofxkxuilhltozkxn'  # Replace with your SMTP password
+EMAIL_HOST_PASSWORD = 'tznikecayprb pzne'  # Replace with your SMTP password
 
 
 
