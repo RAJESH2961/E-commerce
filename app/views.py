@@ -112,9 +112,59 @@ def contact(req):
         sender=settings.EMAIL_HOST_USER
         receiver=email
         email_msg=EmailMessage(sub,body,sender,[receiver])
+        if email_msg==1:
+            print("Send Successfully")
+        else :
+            print("failed")
         return redirect('success')
     else:
         return render(req,'contact/contact.html')
     
 def success(req):
     return render(req,'contact/success.html')
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from .form import CustomUserChangeForm
+
+@login_required
+def updateprofile(request):
+    if request.method == 'POST':
+        form = CustomUserChangeForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your profile was successfully updated!')
+            return redirect('success')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = CustomUserChangeForm(instance=request.user)
+    
+    return render(request, 'updateprofile.html', {'form': form})
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import update_session_auth_hash
+from django.contrib import messages
+from .form import CustomPasswordChangeForm
+
+@login_required
+def changepassword(request):
+    if request.method == 'POST':
+        form = CustomPasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important to update the session with the new password
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('success')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = CustomPasswordChangeForm(request.user)
+    
+    return render(request, 'changepassword.html', {'form': form})
+
+
+def add_to_cart(req):
+    pass

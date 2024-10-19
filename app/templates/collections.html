@@ -1,83 +1,72 @@
 {% extends 'base_templates/base.html' %}
 {% block title %} Collections {% endblock title %}
 
-
 {% block css %}
 {% load static %}
-<!-- <link rel="stylesheet" href="{% static 'css/index.css' %}"> -->
 <style>
-  .card{
-    margin: 2rem;
-  }
+    .card {
+        margin: 1rem; /* Adjust the margin to control spacing between cards */
+    }
 
-    /* /* custom styles for card width and height??? */
     .fixed-height-card {
-      height: 400px; /* Set your desired fixed height */
-      width: 350px;
-      overflow: hidden;
+        height: 400px; /* Set your desired fixed height */
+        overflow: hidden;
     }
 
     .fixed-height-card .card-img-top {
-      height: 200px; /* Set your desired fixed height for the image */
-      object-fit: cover; /*Ensure the image covers the div */
-    } 
+        height: 200px; /* Set your desired fixed height for the image */
+        object-fit: cover; /* Ensure the image covers the div */
+    }
 
-    /* in case if the card description is high then we use scrolling content to scroll */
     .fixed-height-card .card-body {
-    height: 200px;/* Adjust this value as needed*/
-    overflow-y: auto; /* Allows scrolling if content overflows*/
-    } 
-
-/* hover effects */
-.card-img-top {
-      transition: all 0.5s ease; /* Smooth transition */
-      filter: grayscale(10%);
-      /* transform-style: preserve-3d; Preserves the 3D effect */
+        height: 200px; /* Adjust this value as needed */
+        overflow-y: auto; /* Allows scrolling if content overflows */
     }
+
+    .card-img-top {
+        transition: all 0.5s ease; /* Smooth transition */
+        filter: grayscale(10%);
+    }
+
     .card-img-top:hover {
-      transform :scale(1.1);
-      filter : grayscale(0);
-      /* transform: rotate3d(1, 1, 4, 40deg); 3D rotation around the X and Y axes */
+        transform: scale(1.1);
+        filter: grayscale(0);
     }
 
-a{
-  text-decoration: none;
-  color: black;
-}
-   
+    a {
+        text-decoration: none;
+        color: black;
+    }
+
+    /* Custom CSS for row spanning */
+    .row-span {
+        grid-row: span 2;
+    }
 </style>
-
-{% endblock %}
-
-
+{% endblock css %}
 
 {% block body %}
-
-
 <h1>Collection Page</h1>
-<h2>This is ah H2 TAG</h2>
+<h2>This is a H2 TAG</h2>
 <div class="container-fluid">
     <div class="row">
         <div class="col-12 border-bottom mb-5">Categories</div>
         {% include 'base_templates/message.html' %}
-
-        {% for item in item %}
-        <div class="col-12 col-md-4 col-lg-3 col-sm-6 col-xs-12 ">
-          <a href="{% url 'collections_view' item.name %}">
-            <div class="card fixed-height-card" style="width: 18rem;">
-                <img src="{{item.image.url}}" class="card-img-top" alt="Collection Images" >
-                <div class="card-body">
-                  <h5 class="card-title">{{item.name}}</h5>
-                  <p class="card-text">{{item.description}}</p>
-                  <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-                </div>
-              </a>
-              </div>
-           
-            <!-- {{ item }} -->
+        <div class="row d-flex flex-wrap">
+            {% for item in item %}
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-4">
+                <a href="{% url 'collections_view' item.name %}">
+                    <div class="card fixed-height-card">
+                        <img src="{{ item.image.url }}" class="card-img-top" alt="Collection Images">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.name }}</h5>
+                            <p class="card-text">{{ item.description }}</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
 </div>
-
 {% endblock body %}

@@ -1,0 +1,165 @@
+{% extends 'base_templates/base.html' %}
+{% block title %} Register{% endblock title %}
+
+
+{% block css %}
+{% load static %}
+<!-- <link rel="stylesheet" href="{% static 'css/index.css' %}"> -->
+<style>
+    /* myapp/static/css/styles.css */
+
+
+/* .container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 500px;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+}
+
+button[type="reset"] {
+    background-color: #f44336;
+    color: white;
+} */
+
+/* .row{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+
+} */
+.label_text{
+    color: blue;
+}
+button{
+    /* all:unset; */
+    border: none;
+    outline: none;
+    padding:5px 10px ;
+    border-radius: 5px;
+    
+}
+
+button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+}
+
+button[type="reset"] {
+    background-color: #f44336;
+    color: white;
+    margin-right: 20px;
+}
+/* button:hover{
+    box-shadow: 10px 10px 2px black;
+} */
+.buttons{
+    display: flex;
+    justify-content: flex-end;
+}
+.row{
+    justify-content: center;
+}
+.form-group>label,input{
+    margin-bottom: 10px;
+}
+label{
+    color: blue;
+}
+
+
+
+</style>
+
+{% endblock %}
+
+{% block body %}
+
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-6">
+    <h2>Login Here</h2>
+    {% include 'base_templates/message.html' %}
+
+    <form method="post" action="">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="username ">Username</label>
+            <input type="text" name="username" id="username" class="form-control" placeholder="Enter User Name">
+        </div>
+        
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="text" name="password" id="password" class="form-control" placeholder="Enter Password ">
+        </div>
+        
+        <div class="form-group">
+            <label for="last_name">Password</label>
+            <input type="text" name="last_name" id="password" class="form-control" placeholder="Enter last_name ">
+        </div>
+        
+        <div class="form-group">
+            <label for="first_name">Password</label>
+            <input type="text" name="first_name" id="password" class="form-control" placeholder="Enter First Name ">
+        </div>
+       
+        <div class="form-actions">
+            <button type="submit">Submit</button>
+            <button type="reset">Clear</button>
+        </div>
+    </form>
+    <!-- Example template snippet -->
+
+            
+         
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock body %}

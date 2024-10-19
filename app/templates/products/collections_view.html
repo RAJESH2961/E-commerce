@@ -1,89 +1,76 @@
 {% extends 'base_templates/base.html' %}
 {% block title %} E-Commerce{% endblock title %}
 
-
 {% block css %}
 <style>
-
     /* custom styles for card width and height */
     .fixed-height-card {
-      height: 400px; /* Set your desired fixed height */
+        height: 400px; /* Set your desired fixed height */
     }
     .fixed-height-card .card-img-top {
-      height: 200px; /* Set your desired fixed height for the image */
-      object-fit: cover; /* Ensure the image covers the div */
+        height: 200px; /* Set your desired fixed height for the image */
+        object-fit: cover; /* Ensure the image covers the div */
     }
 
     /* in case if the card description is high then we use scrolling content to scroll */
     .fixed-height-card .card-body {
-    height: 200px; /* Adjust this value as needed */
-    overflow-y: auto; /* Allows scrolling if content overflows */
-}
+        height: 200px; /* Adjust this value as needed */
+        overflow-y: auto; /* Allows scrolling if content overflows */
+    }
 
-/* hover effects */
-.card-img-top {
-    filter: blur(1px); /* Apply blur effect on hover */
-    filter: brightness(90%);
-
-      transition: filter 0.3s ease; /* Smooth transition effect */
-      /* transform-style: preserve-3d; Preserves the 3D effect */
+    /* hover effects */
+    .card-img-top {
+        filter: blur(1px); /* Apply blur effect */
+        filter: brightness(90%);
+        transition: filter 0.3s ease; /* Smooth transition effect */
     }
     .card-img-top:hover {
-        filter: brightness(100%); /* Apply blur effect on hover */
+        filter: brightness(100%); /* Remove blur effect on hover */
         cursor: pointer;
-
     }
 
-    .original_price{
+    .original_price {
         font-weight: bold;
-        color:red;
+        color: red;
     }
 
-    .selling_price{
+    .selling_price {
         font-weight: bold;
         background-color: green;
-        color: rgb(255, 255, 255);  
-        padding: 0px 5px 0px 5px;
+        color: rgb(255, 255, 255);
+        padding: 0px 5px;
         border-radius: 2px;
     }
-    .card{
-      cursor: pointer;
-      box-shadow: rgba(0, 0, 0, 0.50) 0px 5px 15px;
+
+    .card {
+        cursor: pointer;
+        box-shadow: rgba(0, 0, 0, 0.5) 0px 5px 15px;
     }
-
-    
-
-    
 </style>
-
-
 {% endblock css %}
 
 {% block body %}
-<div class="container">
+<div class="container-fluid">
     <div class="row">
-        <div class="col-12 border-bottom mb-5">{{category_name}} products</div>
+        <div class="col-12 border-bottom mb-5">{{ category_name }} products</div>
         {% include 'base_templates/message.html' %}
-
-        {% for item in products %}
-        <div class="col-lg-3 col-md-4 co1-sm-6 col-xs-12 ">
-            <a href="{% url 'product_details' category_name item.name %}">
-            <div class="card fixed-height-card" style="width: 18rem;">
-                <img src="{{item.product_image.url}}" class="card-img-top" alt="Collection Images" >
-                <div class="card-body">
-                  <h5 class="card-title">{{item.name}}</h5>
-                  <p class="card-text float-start  original_price"><i class="fa fa-inr"> </i> <s>{{item.original_price | stringformat:'d'}}</s></p>
-                  <!-- | stringformat:'d' to remove decima points -->
-                  <p class="card-text float-end  selling_price"><i class="fa fa-inr"></i> {{item.selling_price | stringformat:'d'}}</p>
-                  <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-                </div>
-              </a>
-              </div>
-           
-            <!-- {{ item }} -->
+        <div class="row">
+            {% for item in products %}
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-4">
+                <a href="{% url 'product_details' category_name item.name %}">
+                    <div class="card fixed-height-card">
+                        <img src="{{ item.product_image.url }}" class="card-img-top" alt="Collection Images">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.name }}</h5>
+                            <p class="card-text float-start original_price"><i class="fa fa-inr"></i> <s>{{ item.original_price | stringformat:'d' }}</s></p>
+                            <!-- | stringformat:'d' to remove decimal points -->
+                            <p class="card-text float-end selling_price"><i class="fa fa-inr"></i> {{ item.selling_price | stringformat:'d' }}</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
 </div>
-
 {% endblock body %}
