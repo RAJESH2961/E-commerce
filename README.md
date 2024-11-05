@@ -4,6 +4,9 @@
 A comprehensive e-commerce website developed using Django, providing functionalities for product management, user accounts, reviews, sentiment analysis, and more.
 
 ![E-Commerce Website Screenshot](images/screenshot-1.png) <!-- Replace with the actual image path -->
+![E-Commerce Website Screenshot](images/screenshot-2.png) <!-- Replace with the actual image path -->
+![E-Commerce Website Screenshot](images/screenshot-3.png) <!-- Replace with the actual image path -->
+
 
 ## Features
 - **User-Friendly Interface:** Designed for a seamless experience across devices.
