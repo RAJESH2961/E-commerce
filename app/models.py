@@ -83,3 +83,21 @@ class Favourite(models.Model):
     user=models.ForeignKey(User, on_delete=models.CASCADE)
     product=models.ForeignKey(Product, on_delete=models.CASCADE)
     created_at=models.DateTimeField(auto_now=True)
+
+
+
+class Review(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='reviews')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    rating = models.PositiveIntegerField(default=1, help_text="Rating from 1 to 5")
+    comment = models.TextField(max_length=1000, null=True, blank=True, help_text="Optional review comment")
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_approved = models.BooleanField(default=False, help_text="Admin approval status")
+    sentiment = models.CharField(max_length=10, null=True, blank=True)  # 'positive', 'negative', etc.
+    confidence_score = models.FloatField(null=True, blank=True)  # Store the confidence score
+
+    def __str__(self):
+        return f"{self.user.username} - {self.product.name} - {self.rating} stars"
+
+    class Meta:
+        ordering = ['-created_at']

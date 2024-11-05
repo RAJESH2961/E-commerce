@@ -1,4 +1,6 @@
 from django.shortcuts import render,redirect
+from django.http import  JsonResponse
+
 from .models import *
 from django.contrib import messages#we can use it in anywhere in the application globally 
 from django.http import HttpResponse
@@ -9,9 +11,29 @@ from django.core.mail import EmailMessage
 
 # Create your views here.
 
+# def home(req):
+#     products=Product.objects.filter(trending=1)
+#     return render(req, 'index.html', {'products':products})
+from .models import Product, Category
+
 def home(req):
-    products=Product.objects.filter(trending=1)
-    return render(req, 'index.html', {'products':products})
+    # Attempt to get the "Laptop" category
+    laptop_category = Category.objects.filter(name="Laptops").first()
+
+    # Fetch all trending products
+    trending_products = Product.objects.filter(trending=True)[:12]
+
+    # Fetch trending laptops if the category exists
+    if laptop_category:
+        trending_laptops = Product.objects.filter(trending=True, category=laptop_category)[:5]
+    else:
+        trending_laptops = []  # No trending laptops found
+
+    return render(req, 'index.html', {
+        'products': trending_products,
+        'trending_laptops': trending_laptops
+    })
+
 
 # def register(req):
 #     form=RegisterForm()
@@ -57,7 +79,7 @@ def login_view(req):
             if user is not None:#It will check the credentials in the database if it is valid ie Not None
                 login(req,user)
                 messages.success(req,"Logged in Successfully ! ")
-                return redirect('home')
+                return redirect('success')
             else:
                 messages.error(req,"User Name Not Found ")
                 return redirect('login_view')
@@ -84,19 +106,97 @@ def collections_view(req,name):
     else:
         messages.warning(req, "No such Category found")
         return redirect('collections')
+from .models import Category, Product, Review
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from transformers import pipeline
 
-def product_details(req,cname,pname):
-    if Category.objects.filter(name=cname, status=0):
-            if Product.objects.filter(name=pname, status=0):
-                 products=Product.objects.filter(name=pname,status=0).first()
-                 return render(req,"products/product_details.html",{"products":products})
+# Initialize the sentiment analyzer
+sentiment_analyzer = pipeline("sentiment-analysis", model="distilbert-base-uncased-finetuned-sst-2-english", device=0)  # Use device=0 for GPU, or device=-1 for CPU
+
+def product_details(req, cname, pname):
+    # Check if the category exists and is active
+    if Category.objects.filter(name=cname, status=0).exists():
+        # Check if the product exists and is active
+        if Product.objects.filter(name=pname, status=0).exists():
+            product = Product.objects.filter(name=pname, status=0).first()
+            # Fetch only approved reviews
+            reviews = product.reviews.filter(is_approved=True)
+
+            # Handle the review submission
+            if req.method == 'POST':
+                rating = req.POST.get('rating')
+                comment = req.POST.get('comment')
+
+                # Check if the user is authenticated
+                if req.user.is_authenticated:
+                    if rating and comment:
+                        try:
+                            # Perform sentiment analysis
+                            result = sentiment_analyzer(comment)[0]
+                            sentiment = result['label'].lower()
+                            confidence_score = result['score']
+
+                            # Create a new review object and save it to the database
+                            review = Review.objects.create(
+                                product=product,
+                                user=req.user,
+                                rating=rating,
+                                comment=comment,
+                                is_approved=False,  # Set to False initially for admin approval
+                                sentiment=sentiment,  # Save the sentiment analysis result
+                                confidence_score=confidence_score,  # Save the confidence score
+                            )
+                            review.save()
+                            
+                            messages.success(req, "Your review has been submitted and is awaiting approval.")
+                            return redirect('product_details', cname=cname, pname=pname)
+                        except Exception as e:
+                            messages.error(req, f"An error occurred while processing your review: {str(e)}")
+                    else:
+                        messages.error(req, "Please provide both rating and comment.")
+                else:
+                    messages.error(req, "You must be logged in to submit a review.")
+                    return redirect('login_view')  # Redirect to login if not authenticated
+
+            # Calculate overall sentiment for the product
+            if reviews.exists():
+                # Prepare review texts for analysis
+                review_texts = [review.comment for review in reviews]
+                results = sentiment_analyzer(review_texts)
+
+                # Calculate overall sentiment
+                positive_count = sum(1 for result in results if result['label'] == 'POSITIVE')
+                negative_count = sum(1 for result in results if result['label'] == 'NEGATIVE')
+                total_count = len(results)
+
+                positive_percentage = (positive_count / total_count) * 100 if total_count > 0 else 0
+                negative_percentage = (negative_count / total_count) * 100 if total_count > 0 else 0
+
+                # Prepare data for the template
+                sentiment_analysis = {
+                    'positive_count': positive_count,
+                    'negative_count': negative_count,
+                    'positive_percentage': positive_percentage,
+                    'negative_percentage': negative_percentage,
+                    'total_reviews': total_count,
+                }
             else:
-                 messages.error(req,"No such product Found ")
-                 return redirect('collections')
+                sentiment_analysis = None
+
+            # Render the product details template with product, reviews, and sentiment analysis
+            return render(req, "products/product_details.html", {
+                "products": product,
+                "reviews": reviews,
+                "sentiment_analysis": sentiment_analysis,
+            })
+        else:
+            messages.error(req, "No such product found.")
+            return redirect('collections')
     else:
-         messages.error(req,"No such Category Found")
-         return redirect('collections')
-         
+        messages.error(req, "No such category found.")
+        return redirect('collections')
+
 
 def contact(req):
     if req.method=="POST":
@@ -125,7 +225,6 @@ def success(req):
 
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
 from .form import CustomUserChangeForm
 
 @login_required
@@ -143,10 +242,9 @@ def updateprofile(request):
     
     return render(request, 'updateprofile.html', {'form': form})
 
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
+
 from django.contrib.auth import update_session_auth_hash
-from django.contrib import messages
+
 from .form import CustomPasswordChangeForm
 
 @login_required
@@ -157,7 +255,7 @@ def changepassword(request):
             user = form.save()
             update_session_auth_hash(request, user)  # Important to update the session with the new password
             messages.success(request, 'Your password was successfully updated!')
-            return redirect('success')
+            return redirect('login_view')
         else:
             messages.error(request, 'Please correct the error below.')
     else:
@@ -166,5 +264,54 @@ def changepassword(request):
     return render(request, 'changepassword.html', {'form': form})
 
 
-def add_to_cart(req):
-    pass
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+from .models import Product, Cart
+
+@csrf_exempt  # Temporarily add this if you are testing without CSRF tokens (not recommended in production)
+def add_to_cart(request):
+    print("Entered add_to_cart view")  # Debugging statement
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        print("Request is AJAX")
+        if request.user.is_authenticated:
+            print("User is authenticated")
+            data = json.load(request)
+            product_qty = data.get('product_qty')
+            product_id = data.get('pid')
+            print("Product ID:", product_id, "Quantity:", product_qty)
+
+            print("Product ID:", product_id)          # Debugging
+            print("Product Quantity:", product_qty)   # Debugging
+            print("User ID:", request.user.id)        # Debugging
+
+            try:
+                product = Product.objects.get(id=product_id)
+                if Cart.objects.filter(user=request.user, product_id=product_id).exists():
+                    return JsonResponse({'status': 'Product Already in Cart'}, status=200)
+                else:
+                    if product.quantity >= product_qty:
+                        Cart.objects.create(user=request.user, product_id=product_id, product_qty=product_qty)
+                        return JsonResponse({'status': 'Product Added to Cart'}, status=200)
+                    else:
+                        return JsonResponse({'status': 'Product Stock Not Available'}, status=200)
+            except Product.DoesNotExist:
+                return JsonResponse({'status': 'Product Not Found'}, status=404)
+        else:
+            return JsonResponse({'status': 'Login to Add Cart'}, status=401)
+    else:
+        return JsonResponse({'status': 'Invalid Access'}, status=400)
+
+
+def cart_page(request):
+  if request.user.is_authenticated:
+    cart=Cart.objects.filter(user=request.user)
+    return render(request,"cart.html",{"cart":cart})
+  else:
+    return redirect("/")
+
+def remove_cart(request,cid):
+  cartitem=Cart.objects.get(id=cid)
+  cartitem.delete()
+  return redirect("/cart")
+

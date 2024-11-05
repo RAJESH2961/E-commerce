@@ -16,10 +16,10 @@ urlpatterns = [
     path('update/', views.updateprofile, name='update_profile'),
     path('changepassword/', views.changepassword, name='changepassword'),
     path('add_to_cart/', views.add_to_cart, name="add_to_cart"),
+    path('remove_cart/<str:cid>',views.remove_cart,name="remove_cart"),
+    path('cart',views.cart_page,name="cart"),
 
-
-
-
+    
 ]
 
 

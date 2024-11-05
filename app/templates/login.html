@@ -40,10 +40,11 @@ form {
     padding: 8px;
     box-sizing: border-box;
 }
-
+*/
 .form-actions {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
+    margin-bottom: 1rem;
 }
 
 button {
@@ -85,6 +86,7 @@ button{
 button[type="submit"] {
     background-color: #4CAF50;
     color: white;
+    margin-right: 1rem;
 }
 
 button[type="reset"] {
@@ -134,7 +136,7 @@ label{
         
         <div class="form-group">
             <label for="password">Password</label>
-            <input type="text" name="password" id="password" class="form-control" placeholder="Enter Password ">
+            <input type="password" name="password" id="password" class="form-control" placeholder="Enter Password ">
         </div>
        
         <div class="form-actions">
