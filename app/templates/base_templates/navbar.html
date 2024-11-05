@@ -1,58 +1,130 @@
+<style>
+  /* General link color */
+  @import url('https://fonts.googleapis.com/css2?family=Rubik+Wet+Paint&display=swap');
+
+  a {
+    color: blue;
+  }
+
+  /* Navbar brand custom styling */
+  .navbar-brand {
+    color: #ff5733 !important;
+    /* Change the font color to a custom color */
+    font-size: 22px;
+    /* Increase the font size */
+    font-weight: bold;
+    /* Make the text bold */
+    text-transform: uppercase;
+    /* Make the text uppercase */
+    font-family: "Playwrite GB S", cursive;
+    /* Change the font family */
+  }
+
+  .navbar-brand:hover {
+    color: #007bff !important;
+    /* Change the hover color */
+    text-decoration: none;
+    /* Add underline on hover */
+  }
+
+  .logo_name {
+    color: #000000;
+    font-family: "Rubik Wet Paint", system-ui;
+    /* font-weight: 100; */
+    font-style: normal;
+    /* text-shadow: 0px 0px 2px rgb(220, 43, 205); */
+  }
+
+.nav-item>a{
+  color: #000000;
+}
+.nav-item > a {
+    color: #000000;
+    text-decoration: none;
+    position: relative;
+    transition: color 0.3s ease; /* Smooth color transition */
+}
+
+.nav-item > a:hover {
+    color: #ff5733; /* Change color on hover */
+}
+
+.nav-item > a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px; /* Adjust position of the underline */
+    height: 2px; /* Thickness of the underline */
+    width: 0;
+    background-color: #ff5733;
+    transition: width 0.5s ease; /* Smooth underline transition */
+}
+
+.nav-item > a:hover::after {
+    width: 80%; /* Width of the underline on hover */
+}
+
+.fa-shopping-cart{
+  color: var(--heading-color);
+}
+</style>
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="{% url 'home' %}"><i class="fa fa-cart-plus"></i> UrbanCart</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="{% url 'home' %}"><i class="fa fa-home"></i> Home</a>
-          </li>
-          {% if request.user.is_authenticated %}
-                <li class="nav-item">
-                  <a class="nav-link" href="#"><b><i class="fa fa-user" > </i> Hi <span style="color:blue;">{{request.user | upper}} </span> </b></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'logout_view' %}" id="logout-link"><i class="fa fa-sign-in" ></i>logout</a>
-                </li>
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'home' %}"><i class="fa fa-cart-plus"></i> <span
+        class="logo_name">UrbanCart</span></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+      aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'home' %}"><i class="fa fa-home"></i> Home</a>
+        </li>
+        {% if request.user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="#"><b><i class="fa fa-user"> </i> Hi <span style="color:blue;">{{request.user | upper}} </span> </b></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'logout_view' %}" id="logout-link"><i class="fa fa-sign-in"></i>logout</a>
+        </li>
 
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Update Details
-                  </a>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="{% url 'update_profile' %}">Update User details</a></li>
-                    <li><a class="dropdown-item" href="{% url 'changepassword' %}">Change Password</a></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                  </ul>
-                </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Update Details
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'update_profile' %}" target="_blank">Update User details</a></li>
+            <li><a class="dropdown-item" href="{% url 'changepassword' %}" target="_blank">Change Password</a></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
 
-          {% else %}
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'register' %}"><i class="fa fa-user"></i> Register</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'login_view' %}"><i class="fa fa-sign-in" ></i>Login</a>
-              </li>
-          {% endif %}
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'collections' %}"><i class="fa fa-cubes"></i> Collections</a>
-          </li>
-          
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'contact' %}"><i class="fa fa-contact"></i> Contact Us</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'home' %}"><i class="fa fa-shopping-cart"> </i>  CART </a>
-          </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'register' %}"><i class="fa fa-user"></i> Register</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login_view' %}"><i class="fa fa-sign-in"></i>Login</a>
+        </li>
+        {% endif %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'collections' %}"><i class="fa fa-cubes"></i> Collections</a>
+        </li>
 
-          
-        </ul>
-      </div>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'contact' %}"><i class="fa fa-contact"></i> Contact Us</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'cart' %}"><i class="fa fa-shopping-cart"> </i> CART </a>
+        </li>
+
+
+      </ul>
     </div>
-  </nav>
-  <!-- // login welcome message
+  </div>
+</nav>
+<!-- // login welcome message
   {% if request.user.is_authenticated %}
   <script>
     alert("Welcome back, {{ request.user.username }}!");
@@ -60,22 +132,22 @@
 {% endif %}
   <script> -->
 <script>
-    // it is used to ask confirmation to the user that they are sure to logout this prevents the logout
- 
- const logoutLink = document.getElementById('logout-link');
+  // it is used to ask confirmation to the user that they are sure to logout this prevents the logout
 
-logoutLink.addEventListener('click', function(event) {
-  if (confirm("Are you sure you want to logout?")) {
-    // Perform logout action here (if needed)
-    alert("You have been logged out.");
-  } else {
-    event.preventDefault();  // Ensure this is called only on cancel
-    alert("Logout canceled.");
-  }
-});
+  const logoutLink = document.getElementById('logout-link');
 
-
+  logoutLink.addEventListener('click', function (event) {
+    if (confirm("Are you sure you want to logout?")) {
+      // Perform logout action here (if needed)
+      alert("You have been logged out.");
+    } else {
+      event.preventDefault();  // Ensure this is called only on cancel
+      alert("Logout canceled.");
+    }
+  });
 
 
-    
+
+
+
 </script>

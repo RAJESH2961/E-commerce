@@ -3,6 +3,9 @@
 
 {% block css %}
 <style>
+        :root {
+        --heading-color: rgb(201, 13, 201);
+    }
     /* custom styles for card width and height */
     .fixed-height-card {
         height: 400px; /* Set your desired fixed height */
@@ -46,17 +49,25 @@
         cursor: pointer;
         box-shadow: rgba(0, 0, 0, 0.5) 0px 5px 15px;
     }
+    .category_name{
+        color: var(--heading-color);
+        font-size: 1.5rem;
+    }
+    a{
+        text-decoration: none;
+    }
+    
 </style>
 {% endblock css %}
 
 {% block body %}
 <div class="container-fluid">
     <div class="row">
-        <div class="col-12 border-bottom mb-5">{{ category_name }} products</div>
+        <div class="col-12 border-bottom mb-5 category_name">{{ category_name }} products</div>
         {% include 'base_templates/message.html' %}
         <div class="row">
             {% for item in products %}
-            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-4">
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-4 col">
                 <a href="{% url 'product_details' category_name item.name %}">
                     <div class="card fixed-height-card">
                         <img src="{{ item.product_image.url }}" class="card-img-top" alt="Collection Images">

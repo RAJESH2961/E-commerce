@@ -4,27 +4,43 @@
 {% block css %}
 {% load static %}
 <style>
+    :root {
+        --heading-color: rgb(201, 13, 201);
+    }
+
     .card {
-        margin: 1rem; /* Adjust the margin to control spacing between cards */
+        margin: 1rem;
+        /* Adjust the margin to control spacing between cards */
+        /* box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;    */
+    }
+
+    .card:hover {
+        box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
     }
 
     .fixed-height-card {
-        height: 400px; /* Set your desired fixed height */
+        height: 400px;
+        /* Set your desired fixed height */
         overflow: hidden;
     }
 
     .fixed-height-card .card-img-top {
-        height: 200px; /* Set your desired fixed height for the image */
-        object-fit: cover; /* Ensure the image covers the div */
+        height: 200px;
+        /* Set your desired fixed height for the image */
+        object-fit: cover;
+        /* Ensure the image covers the div */
     }
 
     .fixed-height-card .card-body {
-        height: 200px; /* Adjust this value as needed */
-        overflow-y: auto; /* Allows scrolling if content overflows */
+        height: 200px;
+        /* Adjust this value as needed */
+        overflow-y: auto;
+        /* Allows scrolling if content overflows */
     }
 
     .card-img-top {
-        transition: all 0.5s ease; /* Smooth transition */
+        transition: all 0.5s ease;
+        /* Smooth transition */
         filter: grayscale(10%);
     }
 
@@ -42,19 +58,29 @@
     .row-span {
         grid-row: span 2;
     }
+
+    .card-title {
+        color: var(--heading-color);
+        font-size: 1.3rem;
+        font-weight: 700;
+    }
+
+    #categories_name {
+        color: var(--heading-color);
+    }
 </style>
 {% endblock css %}
 
 {% block body %}
-<h1>Collection Page</h1>
-<h2>This is a H2 TAG</h2>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-12 border-bottom mb-5">Categories</div>
+        <div class="col-12 border-bottom mt-3 fw-bold">
+            <h3 id="categories_name">Select Your categories</h3>
+        </div>
         {% include 'base_templates/message.html' %}
         <div class="row d-flex flex-wrap">
             {% for item in item %}
-            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-4">
+            <div class="  col-lg-3 col-md-4 col-sm-6 col-12 mb-4">
                 <a href="{% url 'collections_view' item.name %}">
                     <div class="card fixed-height-card">
                         <img src="{{ item.image.url }}" class="card-img-top" alt="Collection Images">

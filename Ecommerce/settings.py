@@ -152,3 +152,5 @@ EMAIL_HOST_PASSWORD = 'tznikecayprb pzne'  # Replace with your SMTP password
 
 
 
+# settings.py
+APPEND_SLASH = False

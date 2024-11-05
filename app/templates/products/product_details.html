@@ -1,160 +1,487 @@
 {% extends 'base_templates/base.html' %}
 {% block title %} E-Commerce{% endblock title %}
 
-
 {% block css %}
+
 <style>
-    body{
+    :root {
+        --heading-color: #ff5733;
+    }
+
+    body {
         height: 100vh;
         width: 100vw;
     }
-    .card-img{
-        width:380px;
-        height: 250px;
+
+    .main-div {
+        margin-bottom: 2rem;
+        background-color: rgba(255, 255, 255, 0.562);
+        padding: 2rem;
     }
+
+    .card-img {
+        width: 100%;
+        height: auto;
+        border-radius: 0.5rem;
+    }
+
     .description {
-    max-width: 100%; /* Ensure the paragraph does not exceed its container width */
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    white-space: normal;
-    overflow: hidden; /* Prevent horizontal scrolling */
-}
-/* Trending Product Stylings */
-.pic-box{
-    position: relative;
-}
-.hot{
-    background-color: red;
-    color: white;
-    width: 50px;
-    text-align: center;
-    font-weight: bold;
-    display: inline;
-    border-radius: 5px;
-    padding:5px;
-    position: absolute;
-    top: 0px;
-    right: 5px;
-    z-index: 10;
+        max-width: 100%;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: normal;
+        overflow: hidden;
+    }
 
-}
+    .pic-box {
+        position: relative;
+    }
 
-   
-    
- 
+    .hot {
+        background-color: red;
+        color: white;
+        width: 50px;
+        text-align: center;
+        font-weight: bold;
+        display: inline-block;
+        border-radius: 5px;
+        padding: 5px;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        z-index: 10;
+    }
 
+    @media (max-width: 991px) {
+
+        .image-section,
+        .content-section {
+            order: 1;
+        }
+    }
+
+    /* Reviews Section Styling */
+    .reviews {
+        background-color: #f9f9f9;
+        /* Light background for contrast */
+        padding: 20px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        margin-top: 20px;
+    }
+
+    .reviews h3 {
+        color: #333;
+        font-size: 24px;
+        border-bottom: 2px solid #007bff;
+        /* Accent color for the section title */
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+    }
+
+    .review {
+        background-color: #ffffff;
+        /* White background for individual reviews */
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        margin-bottom: 15px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        /* Soft shadow for depth */
+    }
+
+    .review h4 {
+        font-size: 18px;
+        color: #007bff;
+        /* Accent color for user name and rating */
+        margin: 0 0 5px 0;
+    }
+
+    .review p {
+        font-size: 16px;
+        color: #555;
+        /* Slightly darker gray for text */
+        margin: 10px 0;
+    }
+
+    .review small {
+        font-size: 12px;
+        color: #888;
+        /* Light gray for date */
+    }
+
+    #review_name {
+        color: var(--heading-color);
+        font-weight: bold;
+        padding: 10px;
+    }
+
+    .review-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        /* Creates two equal-width columns */
+        gap: 20px;
+        /* Space between the grid items */
+    }
+
+    .review {
+        background-color: #ffffff;
+        /* White background for individual reviews */
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        /* Soft shadow for depth */
+    }
+
+    @media (max-width: 768px) {
+        .review-grid {
+            grid-template-columns: 1fr;
+            /* Change to a single column layout on smaller screens */
+        }
+    }
+
+    /* Center the Review Submission Form */
+    form {
+        width: 50%;
+        /* Set the form width to 50% of the container */
+        margin: 0 auto;
+        /* Center the form horizontally */
+        background-color: #f9f9f9;
+        /* Light background color for the form */
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        /* Soft shadow for depth */
+    }
+
+    form h3 {
+        text-align: center;
+        /* Center the heading text */
+        color: #333;
+        font-size: 24px;
+        margin-bottom: 15px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        font-size: 16px;
+        color: #555;
+        margin-bottom: 5px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        /* Full width input and textarea */
+        padding: 8px;
+        font-size: 16px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    /* Style the dropdown list for rating */
+    .form-group select {
+        width: 100%;
+        /* Full width of the container */
+        padding: 8px;
+        font-size: 16px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: #fff;
+        /* White background */
+        appearance: none;
+        /* Remove default styling for dropdown */
+        cursor: pointer;
+    }
+
+    .form-group select:focus {
+        outline: none;
+        /* Remove default focus outline */
+        border-color: #007bff;
+        /* Border color on focus */
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        /* Subtle shadow on focus */
+    }
+
+    /* Style the dropdown list for rating */
+    .form-group select {
+        width: 100%;
+        /* Full width of the container */
+        padding: 8px;
+        font-size: 16px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: #fff;
+        /* White background */
+        background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="10" viewBox="0 0 14 10"><polygon points="0,0 14,0 7,10" fill="%23007bff"/></svg>');
+        /* Custom arrow */
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+        /* Position the arrow inside the select box */
+        background-size: 12px;
+        /* Size of the arrow */
+        appearance: none;
+        /* Remove default styling for dropdown */
+        cursor: pointer;
+    }
+
+    .form-group select:focus {
+        outline: none;
+        /* Remove default focus outline */
+        border-color: #007bff;
+        /* Border color on focus */
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        /* Subtle shadow on focus */
+    }
+
+
+    .rating-star {
+        color: green !important;
+        /* Default color for stars */
+        font-size: 20px;
+        /* Adjust as needed */
+    }
+
+    .star-rating {
+        display: inline-block;
+        /* Keep stars in a single line */
+    }
+
+    .star {
+        font-size: 18px;
+        color: #ddd;
+        /* Gray color for empty stars */
+        margin-right: 2px;
+    }
+
+    .star-rating {
+        display: inline-block;
+        /* Keep stars in a single line */
+    }
+
+    .star {
+        font-size: 24px;
+        /* Size of the stars */
+        color: #ddd;
+        /* Gray color for unfilled stars */
+        margin-right: 2px;
+        /* Space between stars */
+    }
+
+    /* Colors based on rating */
+    .rating-1 .filled {
+        color: red;
+    }
+
+    .rating-2 .filled {
+        color: darkorange;
+    }
+
+    .rating-3 .filled {
+        color: orange;
+    }
+
+    .rating-4 .filled {
+        color: rgb(34, 154, 34);
+    }
+
+    .rating-5 .filled {
+        color: green;
+    }
+
+    #Product_review {
+        margin-left: 20px;
+        font-weight: bold;
+    }
+
+    #productName {
+        color: var(--heading-color);
+    }
 </style>
-
 
 {% endblock css %}
 
 {% block body %}
-<div class="container-fluid">
+<div class="col-12 border-bottom mb-3 ms-5 text-success">
+    <h2 id="productName">{{ products }} Details </h2>
+</div>
+
+<div class="container-fluid main-div">
     <div class="row">
-        <div class="col-12 border-bottom mb-3 text-success"><h2>{{products}} Details </h2></div>
-        <!-- <p style="border-bottom: 2px solid rgb(0, 13, 251);"></p> -->
-        <!-- <div class="row"> -->
+        <div class="image-section col-lg-4 col-sm-12 order-1 order-lg-1">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                  <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-                  <li class="breadcrumb-item"><a href="{% url 'collections_view' products.category.name %}">Collections</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">{{products.name}}</li>
+                    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                    <li class="breadcrumb-item"><a
+                            href="{% url 'collections_view' products.category.name %}">Collections</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ products.name }}</li>
                 </ol>
-              </nav>
-              {% include 'base_templates/message.html' %}
-
-
-        <div class="col-lg-4 col-sm-12 pic-box">
-
-            <!-- IT Displays Hot When the product is trending -->
-            {% if products.trending %}
-
-            <div class="hot">HOT</div>
-            {% endif %}
-            <!-- img -->
-            <img src="{{products.product_image.url}}" class="card-img" alt="Products Images" >
-
+            </nav>
+            {% include 'base_templates/message.html' %}
+            <div class="pic-box">
+                {% if products.trending %}
+                <div class="hot">HOT</div>
+                {% endif %}
+                <img src="{{ products.product_image.url }}" class="card-img" alt="Products Images">
+            </div>
         </div>
-        <div class="col-lg-8 col-sm-12">
-            <h5 class="text-success">{{products | upper}}</h5> <!--it converts Uppercase-->
-
-            <p>{{products.vendor}}</p>
-
+        <div class="content-section col-lg-8 col-sm-12 order-2 order-lg-2">
+            <h5 class="text-success">{{ products | upper }}</h5>
+            <p>{{ products.vendor }}</p>
             <p class="description">{{ products.description }}</p>
-
-            <p class="text-danger">Origional Price <i class="fa fa-inr"> </i> <s class="text-danger fw-bold">{{products.original_price | stringformat:'d'}}</s></p>
-            <!-- | stringformat:'d' to remove decima points -->
-            <p class="text-primary">Offer Price <i class="fa fa-inr"></i> {{products.selling_price | stringformat:'d'}}</p>
-
+            <p class="text-danger">Original Price <i class="fa fa-inr"></i> <s
+                    class="text-danger fw-bold">{{products.original_price | stringformat:'d' }}</s></p>
+            <p class="text-primary">Offer Price <i class="fa fa-inr"></i> {{ products.selling_price | stringformat:'d'}}
+            </p>
             {% if products.quantity > 0 %}
             <input type="hidden" name="" value="{{ products.id }}" id="pid">
             {% csrf_token %}
             <p>
-                <div class="input-group" style="width:150px;">
-                    <button class="input-group-text bg-success text-light" id="button-minus"><i class="fa fa-minus" ></i></button>
-                    <input type="text" name="qty" id="txtQty" value="1" class="form-control text-center">
-                    <button class="input-group-text bg-success text-light" id="button-plus"><i class="fa fa-plus" ></i></button>
-                </div>
+            <div class="input-group" style="width:150px;">
+                <button class="input-group-text bg-success text-light" id="button-minus"><i
+                        class="fa fa-minus"></i></button>
+                <input type="text" name="qty" id="txtQty" value="1" class="form-control text-center">
+                <button class="input-group-text bg-success text-light" id="button-plus"><i
+                        class="fa fa-plus"></i></button>
+            </div>
             </p>
-            <button class="btn btn-primary" id="btnCart"><i class="fa fa-shopping-cart"></i>Add to Cart</button>
+            <button class="btn btn-primary" id="btnCart"><i class="fa fa-shopping-cart" onclick="addToCart()"></i>Add to Cart</button>
             {% else %}
             <button class="btn btn-secondary"><i class="fa fa-minus"></i> Out of Stock</button>
             {% endif %}
-
             <button class="btn btn-danger"><i class="fa fa-heart"></i></button>
-
         </div>
-    <!-- </div> -->
     </div>
 </div>
 
+<!-- Product Details Section -->
+<h1>{{ products.name }}</h1>
+<p>{{ products.description }}</p>
+
+<!-- Reviews Section -->
+<div class="reviews">
+    <h3>Reviews</h3>
+    <div class="review-grid"> <!-- Container for the grid layout -->
+        {% for review in reviews %}
+        <div class="review">
+            <h4>{{ review.user.username }}</h4>
+            <div class="star-rating rating-{{ review.rating }}"> <!-- Class based on the rating -->
+                <span class="star {% if review.rating >= 1 %}filled{% endif %}">★</span>
+                <span class="star {% if review.rating >= 2 %}filled{% endif %}">★</span>
+                <span class="star {% if review.rating >= 3 %}filled{% endif %}">★</span>
+                <span class="star {% if review.rating >= 4 %}filled{% endif %}">★</span>
+                <span class="star {% if review.rating >= 5 %}filled{% endif %}">★</span>
+            </div>
+            <p>{{ review.comment }}</p>
+            <small>Reviewed on {{ review.created_at }}</small>
+        </div>
+        {% empty %}
+        <p>No reviews yet.</p>
+        {% endfor %}
+    </div>
+    
+    <!-- Sentiment Analysis Section -->
+    {% if sentiment_analysis %}
+    <div class="sentiment-analysis">
+        <h4>Overall Product Analysis</h4>
+        <p>Total Reviews: {{ sentiment_analysis.total_reviews }}</p>
+        <p>Positive Reviews: {{ sentiment_analysis.positive_count }} ({{ sentiment_analysis.positive_percentage|floatformat:2 }}%)</p>
+        <p>Negative Reviews: {{ sentiment_analysis.negative_count }} ({{ sentiment_analysis.negative_percentage|floatformat:2 }}%)</p>
+    </div>
+    {% else %}
+    <p>No sentiment analysis available yet.</p>
+    {% endif %}
+</div>
+
+
+{% if user.is_authenticated %}
+<!-- Review Submission Form -->
+<h3 id="review_name">Leave a Review</h3>
+
+<form method="POST" action=" "> <!-- Update the action to point to your analyze_review view -->
+    {% csrf_token %}
+    <div class="form-group">
+        <p>Review as: <strong>{{ user.username }}</strong></p> <!-- Display the user's name -->
+
+        <label for="rating">Rating:</label>
+        <select name="rating" id="rating" required>
+            <option value="" disabled selected>Select stars</option>
+            <option value="5">5 stars</option>
+            <option value="4">4 stars</option>
+            <option value="3">3 stars</option>
+            <option value="2">2 stars</option>
+            <option value="1">1 star</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="comment">Comment:</label>
+        <textarea name="comment" id="comment" rows="4" required></textarea>
+    </div>
+
+    <!-- Hidden fields to send product ID and user ID -->
+    <input type="hidden" name="product_id" value="{{ product.id }}"> <!-- Assuming you have the product object available -->
+    <input type="hidden" name="user_id" value="{{ user.id }}">
+
+    <button type="submit" class="btn btn-primary">Submit Review</button>
+</form>
+{% else %}
+<p id="Product_review">Please <a href="{% url 'login_view' %}">log in</a> to leave a review.</p>
+{% endif %}
+
 <script>
-    document.addEventListener("DOMContentLoaded", function(event){
-        const btnPlus = document.getElementById("button-plus")
-        const btnminus = document.getElementById("button-minus")
-        const textQty = document.getElementById("txtQty")
-        const pid = document.getElementById("pid")
-        const btnCart = document.getElementById("btnCart")
+       function addToCart() {
+      // Display success message immediately
+      alert("Product added successfully");
+       }
+
+    document.addEventListener("DOMContentLoaded", function (event) {
+        const btnPlus = document.getElementById("button-plus");
+        const btnminus = document.getElementById("button-minus");
+        const textQty = document.getElementById("txtQty");
+        const pid = document.getElementById("pid");
+        const btnCart = document.getElementById("btnCart");
         const tkn = document.querySelector('[name="csrfmiddlewaretoken"]').value;
 
-        btnPlus.addEventListener("click", function(){
-            let qty=parseInt(textQty.value, 10);//Base 10 ie decimal
-            qty=isNaN(qty)?0:qty;//checks quantity is not a number like if user entered string it will be 0 alse same qty is assigned
-            // console.log(qty+4)
-            if (qty<10){
+        btnPlus.addEventListener("click", function () {
+            let qty = parseInt(textQty.value, 10);
+            qty = isNaN(qty) ? 0 : qty;
+            if (qty < 10) {
                 qty++;
-                txtQty.value=qty;
+                textQty.value = qty;
             }
         });
 
-        btnminus.addEventListener("click", function(){
-            let qty=parseInt(textQty.value, 10);//Base 10 ie decimal
-            qty=isNaN(qty)?0:qty;//checks quantity is not a number like if user entered string it will be 0 alse same qty is assigned
-            if (qty>1){
+        btnminus.addEventListener("click", function () {
+            let qty = parseInt(textQty.value, 10);
+            qty = isNaN(qty) ? 0 : qty;
+            if (qty > 1) {
                 qty--;
-                txtQty.value=qty;
-            }
-        });
-        btnCart.addEventListener("click", function(){
-            let qty=parseInt(textQty.value, 10);//Base 10 ie decimal
-            qty=isNaN(qty)?0:qty;//checks quantity is not a number like if user entered string it will be 0 alse same qty is assigned
-            if (qty>0){
-                let postObj={
-                    product:qty,
-                    pid:pid.value,
-                    token:tkn
-                }
-                console.log(postObj)
-               
-            }
-            else{
-                alert("please Enter The Quantity")
-
+                textQty.value = qty;
             }
         });
 
+        btnCart.addEventListener("click", function () {
+            let qty = parseInt(textQty.value, 10);
+            qty = isNaN(qty) ? 0 : qty;
+            if (qty > 0) {
+                let postObj = {
+                    product: qty,
+                    pid: pid.value,
+                    token: tkn
+                };
+                console.log(postObj);
+                // Handle the postObj as needed, e.g., send it to the server.
+            } else {
+                alert("Please enter the quantity");
+            }
+        });
     });
 </script>
-
-
 {% endblock body %}
